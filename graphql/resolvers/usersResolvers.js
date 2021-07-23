@@ -5,9 +5,11 @@ const {JWT_SECRET, JWT_EXPIRE} = require('../../config')
 
 module.exports={
     Mutation:{
-        async register(parent, {username, email, password, confirmPassword}, context, info){
+        //register mutation
+        async register(parent, {registerInput: {username, email, password, confirmPassword}}, context, info){
             //Validate user
             //Unique user
+
             //Hash password
             password = await bcrypt.hash(password, 12)
 
@@ -17,14 +19,15 @@ module.exports={
                 password,
                 createdAt: new Date().toISOString()
             })
-
+            // Save to db
             const res = await  newUser.save()
+  
             // Create hash token
             const token = jwt.sign({
                 id : res.id,
                 email : res.email,
                 username : res.username
-            }, JWT_SECRET, {JWT_EXPIRE})
+            }, JWT_SECRET, {expiresIn: JWT_EXPIRE})
  
             return{
                 ...res._doc,

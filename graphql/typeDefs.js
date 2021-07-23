@@ -8,12 +8,14 @@ type Post{
     createdAt: String!
     username: String!
 }
+
 type User{
     id:ID!
     username: String!
     email: String!
     token: String!
 }
+
 input RegisterInput{
     username: String!
     password: String!
