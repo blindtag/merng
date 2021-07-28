@@ -54,8 +54,6 @@ Mutation:{
            const user = checkAuth(context)
            try {
                const post = await Post.findById(postId)
-               console.log(user)
-               console.log(post)
 
                if(user.username === post.username){
                  await  post.delete() 
