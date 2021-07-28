@@ -28,25 +28,27 @@ module.exports = {
            throw new Error(err)
        }
    },
+   
+},
+Mutation:{
+    async createPost(_, {body}, ){
+        //Get user from token
+        const user = checkAuth(context);
+         console.log(user)
+         
+        const newPost = new Post({
+            body,
+            user:user.id,
+           username:user.username,
+           createdAt: new Date().toISOString()
+        })
 
-   Mutation:{
-       async createPost(_, {body}, context){
-           //Get user from token
-           const user = checkAuth(context);
-            console.log(user)
-            
-           const newPost = new Post({
-               body,
-               user:user.id,
-              username:user.username,
-              createdAt: new Date().toISOString()
-           })
+        //Svae post in db
+        const post = await newPost.save()
+         return post
+}
 
-           //Svae post in db
-           const post = await newPost.save()
-            return post
-   }
+}
 
-   }
 
-}}
+}

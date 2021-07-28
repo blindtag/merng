@@ -47,7 +47,7 @@ module.exports={
 
         },
         //register mutation
-        async register(_, {registerInput: {username, email, password, confirmPassword}}, context, info){
+        async register(_, {registerInput: {username, email, password, confirmPassword}}){
             //Validate user
             const{valid, errors} = validateRegisterInput(username, email, password, confirmPassword)
             if(!valid){
