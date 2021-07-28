@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
 const PostSchema = new mongoose.Schema({
-    body:String,
-    username: String,
-    createdAt: String,
+    body: {type:String},
+    username: {type:String},
+    createdAt: {type:String},
     comments:[
         {
             body: String,
