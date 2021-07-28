@@ -31,7 +31,7 @@ module.exports = {
    
 },
 Mutation:{
-    async createPost(_, {body}, ){
+    async createPost(_, {body}, context ){
         //Get user from token
         const user = checkAuth(context);
          console.log(user)

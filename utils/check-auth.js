@@ -8,7 +8,7 @@ module.exports =(context)=>{
         const token = authHeader.split('Bearer ')[1]
         if(token){
             try {     
-                jwt.verify(token , JWT_SECRET)
+              const user =  jwt.verify(token , JWT_SECRET)
                 return user
             } catch (err) {
                 throw new AuthenticationError('Invalid or Expired token')
