@@ -1,10 +1,10 @@
 const { UserInputError } = require('apollo-server')
-const post = require('../../models/PostSchema')
+const Post = require('../../models/PostSchema')
 const checkAuth = require('../../utils/check-auth')
 
 module.exports ={
     Mutation:{
-        createComment: async(_, {posdtId, body}, context)=>{
+        createComment: async(_, {postId, body }, context)=>{
             const {username} = checkAuth(context)
             if(body.trim() === ''){
                 throw new UserInputError('Comment cannot be empty', { 
@@ -12,7 +12,7 @@ module.exports ={
             }
             const post = await Post.findById(postId)
             if(post){
-                post.comments.unhift({
+                post.comments.unshift({
                     body, 
                     username, 
                     createdAt: new Date().toISOString
