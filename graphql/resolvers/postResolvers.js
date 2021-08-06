@@ -44,22 +44,24 @@ Mutation:{
            createdAt: new Date().toISOString()
         })
 
-        //Svae post in db
+        //Save post in db
         const post = await newPost.save()
-        context.pubsub.publish('NEW_POST')
+        context.pubsub.publish('NEW_POST', {
+            newPost: post
+        })
          return post
 },
     async deletePost(_, {postId}, context){
-        console.log(postId)
            //Confirm user from token
            const user = checkAuth(context)
            try {
                const post = await Post.findById(postId)
-
+            //Check if user owns post
                if(user.username === post.username){
                  await  post.delete() 
                  return 'Post deleted successfully'
                }else{
+            //Throw error if user doesn't own post
                    throw new AuthenticationError('Action not allowed')
                }
            } catch (err) {
@@ -70,9 +72,11 @@ Mutation:{
         const {username} = checkAuth(context)
         const post = await Post.findById(postId)
         if(post){
+            //Check if post has been liked by thesame user
             if(post.likes.find(like => like.username === username)){
                 post.likes = post.likes.filter(like  => like.username !== username)
             }else{
+            //Like and save to db
                 post.likes.push({
                     username, 
                     createdAt: new Date().toISOString()
@@ -83,7 +87,7 @@ Mutation:{
         }else throw new UserInputError('Post not found')
     },
 },
-subscription:{
+Subscription:{
     newPost:{
         subscribe: (_, __, {pubsub})=> pubsub.asyncIterator('NEW_POST')
     }

@@ -50,7 +50,8 @@ type Mutation{
     deleteComment(postId:ID!, commentId:ID!):Post!
     likePost(postId:ID!): Post!
 }
-type subscription{
+
+type Subscription{
     newPost: Post!
 }
 `
