@@ -7,8 +7,8 @@ type Post{
     body: String!
     createdAt: String!
     username: String!
-    comments:[String]!
-    likes: [String]!
+    comments:[Comment]!
+    likes: [Like]!
     
 }
 type Comment{
@@ -49,5 +49,8 @@ type Mutation{
     createComment(postId:String!, body:String):Post!
     deleteComment(postId:ID!, commentId:ID!):Post!
     likePost(postId:ID!): Post!
+}
+type subscription{
+    newPost: Post!
 }
 `
